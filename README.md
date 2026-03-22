@@ -6,6 +6,7 @@ A lightweight static landing page built for quick deployment to GitHub Pages or 
 - `index.html`
 - `assets/css/styles.css`
 - `assets/js/script.js`
+- `assets/audio/brand-theme.mp3`
 - `assets/images/` (drop future product art here)
   - `logo.png` (placeholder file — replace with your PNG brand mark)
   - `favicons/` (favicon set, `site.webmanifest`, `og-image.png`)

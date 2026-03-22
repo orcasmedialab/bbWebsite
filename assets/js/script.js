@@ -31,3 +31,29 @@ if (form) {
     form.reset();
   });
 }
+const siteAudio = document.getElementById('siteAudio');
+
+if (siteAudio) {
+  siteAudio.volume = 0.35;
+
+  const tryPlay = () => {
+    const playback = siteAudio.play();
+    if (playback?.catch) {
+      playback.catch(() => {});
+    }
+  };
+
+  if (document.readyState === 'complete') {
+    tryPlay();
+  } else {
+    window.addEventListener('load', tryPlay, { once: true });
+  }
+
+  ['click', 'keydown', 'touchstart'].forEach((eventName) => {
+    const handler = () => {
+      tryPlay();
+      document.removeEventListener(eventName, handler);
+    };
+    document.addEventListener(eventName, handler, { once: true, passive: true });
+  });
+}
