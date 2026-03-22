@@ -84,6 +84,12 @@ img { max-width: 100%; display: block; }
   min-height: 76px;
   gap: 20px;
 }
+.nav-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+}
+
 
 .brand {
   display: inline-flex;
@@ -126,6 +132,47 @@ img { max-width: 100%; display: block; }
   border-radius: 12px;
   padding: 0.45rem 0.7rem;
 }
+.audio-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.04);
+  color: var(--cream);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.audio-toggle:hover,
+.audio-toggle:focus-visible {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.6);
+  outline: none;
+}
+.audio-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+}
+.audio-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.audio-icon svg path[fill="none"],
+.audio-icon svg line {
+  stroke: currentColor;
+}
+.audio-icon svg path[fill="currentColor"] {
+  stroke: none;
+}
+.audio-icon-off { display: none; }
+.audio-toggle[data-muted="true"] .audio-icon-on { display: none; }
+.audio-toggle[data-muted="true"] .audio-icon-off { display: inline-flex; }
+
 
 .mobile-menu {
   display: none;
@@ -456,6 +503,8 @@ blockquote {
   h2 { font-size: clamp(1.8rem, 9vw, 2.8rem); }
   .hero-visual {\r\n    aspect-ratio: auto;\r\n    margin-bottom: 1rem;\r\n  }\r\n  .hero-image {\r\n    height: auto;\r\n  }
 }
+
+
 
 
 

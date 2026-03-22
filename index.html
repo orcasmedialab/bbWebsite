@@ -29,13 +29,39 @@
         </span>
         <span class="brand-text">Bussy Botanicals</span>
       </a>
-      <nav class="nav-links">
-        <a href="#formula">Formula</a>
-        <a href="#why">Why it exists</a>
-        <a href="#faq">FAQ</a>
-        <a href="#signup" class="button button-sm button-ghost">Join waitlist</a>
-      </nav>
-      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="nav-actions">
+        <nav class="nav-links">
+          <a href="#formula">Formula</a>
+          <a href="#why">Why it exists</a>
+          <a href="#faq">FAQ</a>
+          <a href="#signup" class="button button-sm button-ghost">Join waitlist</a>
+        </nav>
+        <button
+          class="audio-toggle"
+          id="audioToggle"
+          type="button"
+          aria-pressed="false"
+          aria-label="Mute site audio"
+          data-muted="false"
+        >
+          <span class="sr-only">Toggle site audio</span>
+          <span class="audio-icon audio-icon-on" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
+              <path d="M16.5 8.5c1 .8 1.5 1.8 1.5 3s-.5 2.2-1.5 3" fill="none" stroke="currentColor" />
+              <path d="M19 7c1.6 1.2 2.4 3 2.4 5s-.8 3.8-2.4 5" fill="none" stroke="currentColor" />
+            </svg>
+          </span>
+          <span class="audio-icon audio-icon-off" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor" />
+              <line x1="17" y1="9" x2="22" y2="14" stroke="currentColor" />
+              <line x1="22" y1="9" x2="17" y2="14" stroke="currentColor" />
+            </svg>
+          </span>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      </div>
     </div>
     <div class="mobile-menu" id="mobileMenu">
       <a href="#formula">Formula</a>
