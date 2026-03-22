@@ -2,10 +2,13 @@
 
 A lightweight static landing page built for quick deployment to GitHub Pages or easy migration into a local repo.
 
-## Files
+## Structure
 - `index.html`
-- `styles.css`
-- `script.js`
+- `assets/css/styles.css`
+- `assets/js/script.js`
+- `assets/images/` (drop future product art here)
+  - `logo.png` (placeholder file — replace with your PNG brand mark)
+  - `favicons/` (favicon set, `site.webmanifest`, `og-image.png`)
 
 ## Quick preview options
 
@@ -38,3 +41,4 @@ http://localhost:8000
 - Swap placeholder product art with real renders or photos.
 - Add compliance-reviewed product copy once your formula and claims are finalized.
 - Add your real social links and favicon.
+- Replace `assets/images/logo.png` with your actual PNG logo (keep the same filename for an instant swap, or update `.brand-logo` in the CSS if you change it).
