@@ -3,6 +3,7 @@ const mobileMenu = document.getElementById('mobileMenu');
 const form = document.getElementById('waitlistForm');
 const formNote = document.getElementById('formNote');
 const audioToggle = document.getElementById('audioToggle');
+const audioPreferenceKey = 'bbAudioMuted';
 
 if (menuToggle && mobileMenu) {
   menuToggle.addEventListener('click', () => {
@@ -37,12 +38,40 @@ const siteAudio = document.getElementById('siteAudio');
 
 if (siteAudio) {
   const defaultVolume = 0.35;
+
+  const readStoredMutePreference = () => {
+    try {
+      const storedValue = localStorage.getItem(audioPreferenceKey);
+      return storedValue === null ? null : storedValue === 'true';
+    } catch (error) {
+      return null;
+    }
+  };
+
+  const writeStoredMutePreference = (isMuted) => {
+    try {
+      localStorage.setItem(audioPreferenceKey, isMuted ? 'true' : 'false');
+    } catch (error) {
+      // ignore storage failures silently
+    }
+  };
+
   siteAudio.volume = defaultVolume;
+  const storedMuted = readStoredMutePreference();
+  if (storedMuted !== null) {
+    siteAudio.muted = storedMuted;
+  }
 
   const tryPlay = () => {
     const playback = siteAudio.play();
     if (playback?.catch) {
       playback.catch(() => {});
+    }
+  };
+
+  const startPlaybackIfAllowed = () => {
+    if (!siteAudio.muted) {
+      tryPlay();
     }
   };
 
@@ -53,17 +82,18 @@ if (siteAudio) {
     audioToggle.setAttribute('aria-pressed', muted ? 'true' : 'false');
     audioToggle.setAttribute('aria-label', muted ? 'Unmute site audio' : 'Mute site audio');
     audioToggle.setAttribute('title', muted ? 'Unmute audio' : 'Mute audio');
+    writeStoredMutePreference(muted);
   };
 
   if (document.readyState === 'complete') {
-    tryPlay();
+    startPlaybackIfAllowed();
   } else {
-    window.addEventListener('load', tryPlay, { once: true });
+    window.addEventListener('load', startPlaybackIfAllowed, { once: true });
   }
 
   ['click', 'keydown', 'touchstart'].forEach((eventName) => {
     const handler = () => {
-      tryPlay();
+      startPlaybackIfAllowed();
       document.removeEventListener(eventName, handler);
     };
     document.addEventListener(eventName, handler, { once: true, passive: true });
@@ -80,7 +110,7 @@ if (siteAudio) {
         if (siteAudio.volume === 0) {
           siteAudio.volume = defaultVolume;
         }
-        tryPlay();
+        startPlaybackIfAllowed();
       } else {
         siteAudio.muted = true;
       }
