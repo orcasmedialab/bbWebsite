@@ -20,17 +20,48 @@ if (menuToggle && mobileMenu) {
 }
 
 if (form) {
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    const email = document.getElementById('email')?.value?.trim();
+
+    const emailInput = document.getElementById('email');
+    const email = emailInput?.value?.trim();
 
     if (!email) {
       formNote.textContent = 'Please enter an email address.';
       return;
     }
 
-    formNote.textContent = `Nice. ${email} is queued for launch updates in this demo.`;
-    form.reset();
+    submitButton.disabled = true;
+    submitButton.textContent = 'Joining...';
+    formNote.textContent = 'Submitting...';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        form.reset();
+        formNote.textContent = "You're in. First drop coming soon.";
+      } else {
+        const data = await response.json().catch(() => null);
+
+        if (data && data.errors && data.errors.length > 0) {
+          formNote.textContent = data.errors.map(err => err.message).join(', ');
+        } else {
+          formNote.textContent = 'Something went wrong. Please try again.';
+        }
+      }
+    } catch (error) {
+      formNote.textContent = 'Network error. Please try again.';
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Join waitlist';
+    }
   });
 }
 

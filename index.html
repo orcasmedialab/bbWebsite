@@ -238,10 +238,15 @@
           </p>
         </div>
 
-        <form class="signup-form" id="waitlistForm">
+        <form 
+          class="signup-form" 
+          id="waitlistForm"
+          action="https://formspree.io/f/mnjoanog" 
+          method="POST"
+        >
           <label for="email" class="sr-only">Email address</label>
           <input id="email" name="email" type="email" placeholder="Enter your email" required />
-          <button type="submit" class="button">Join waitlist</button>
+          <button type="submit" class="button" id="submitButton">Join waitlist</button>
           <p class="form-note" id="formNote">Be part of the Clean Cheeks Club.</p>
         </form>
       </div>
