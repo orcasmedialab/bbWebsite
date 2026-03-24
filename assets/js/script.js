@@ -122,13 +122,20 @@ if (siteAudio) {
     window.addEventListener('load', startPlaybackIfAllowed, { once: true });
   }
 
-  ['click', 'keydown', 'touchstart'].forEach((eventName) => {
-    const handler = () => {
-      startPlaybackIfAllowed();
-      document.removeEventListener(eventName, handler);
-    };
-    document.addEventListener(eventName, handler, { once: true, passive: true });
-  });
+  async function initPlayback() {
+    try {
+      await startPlaybackIfAllowed();
+    } catch {
+      ['click', 'keydown', 'touchstart'].forEach((eventName) => {
+        const handler = () => {
+          startPlaybackIfAllowed();
+        };
+        document.addEventListener(eventName, handler, { once: true, passive: true });
+      });
+    }
+  }
+
+initPlayback();
 
   if (audioToggle) {
     updateAudioToggle();
