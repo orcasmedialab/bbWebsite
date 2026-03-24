@@ -46,7 +46,7 @@ if (form) {
 
       if (response.ok) {
         form.reset();
-        formNote.textContent = "You're in. First drop coming soon.";
+        formNote.textContent = "You're in! Your bussy's big day is cumming.";
       } else {
         const data = await response.json().catch(() => null);
 
@@ -135,7 +135,7 @@ if (siteAudio) {
     }
   }
 
-initPlayback();
+  initPlayback();
 
   if (audioToggle) {
     updateAudioToggle();
