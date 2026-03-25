@@ -501,7 +501,15 @@ blockquote {
   .container { width: min(var(--container), calc(100% - 1.25rem)); }
   h1 { font-size: clamp(2.5rem, 12vw, 4rem); }
   h2 { font-size: clamp(1.8rem, 9vw, 2.8rem); }
-  .hero-visual {\r\n    aspect-ratio: auto;\r\n    margin-bottom: 1rem;\r\n  }\r\n  .hero-image {\r\n    height: auto;\r\n  }
+
+  .hero-visual {
+    aspect-ratio: auto;
+    margin-bottom: 1rem;
+  }
+
+  .hero-image {
+    height: auto;
+  }
 }
 
 
