@@ -443,6 +443,8 @@ blockquote {
 }
 .signup-form.is-success .form-note-heading {
   margin-top: 18px;
+  white-space: pre-line;
+  line-height: 1.5;
 }
 .muted { color: #a8a092; }
 

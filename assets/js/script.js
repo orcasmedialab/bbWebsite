@@ -82,7 +82,7 @@ if (form) {
         submitButton.replaceWith(successBadge);
         form.classList.add('is-success');
         signupSucceeded = true;
-        promoteNoteToHeading("You're in! Your bussy's big day is cumming.");
+        promoteNoteToHeading("You're in! \nYour bussy's big day is cumming.");
       } else {
         const data = await response.json().catch(() => null);
 
