@@ -422,9 +422,27 @@ blockquote {
   font: inherit;
 }
 .signup-form input::placeholder { color: #a7a093; }
+
+.signup-form .trust-item {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.signup-form .form-note-heading {
+  margin-top: 18px;
+  font-size: 1.2rem;
+  color: var(--cream);
+}
 .form-note {
   margin-top: 12px;
   font-size: 0.92rem;
+}
+.signup-form.is-success .form-note {
+  margin-top: 0;
+}
+.signup-form.is-success .form-note-heading {
+  margin-top: 18px;
 }
 .muted { color: #a8a092; }
 
@@ -511,7 +529,6 @@ blockquote {
     height: auto;
   }
 }
-
 
 
 

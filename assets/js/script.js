@@ -1,7 +1,7 @@
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 const form = document.getElementById('waitlistForm');
-const formNote = document.getElementById('formNote');
+let formNote = document.getElementById('formNote');
 const audioToggle = document.getElementById('audioToggle');
 const audioPreferenceKey = 'bbAudioMuted';
 
@@ -20,20 +20,45 @@ if (menuToggle && mobileMenu) {
 }
 
 if (form) {
+  const setFormNoteText = (message) => {
+    if (formNote) {
+      formNote.textContent = message;
+    }
+  };
+
+  const promoteNoteToHeading = (message) => {
+    if (!formNote) return;
+    if (formNote.tagName.toLowerCase() === 'h3') {
+      formNote.textContent = message;
+      return;
+    }
+
+    const heading = document.createElement('h3');
+    heading.id = formNote.id || 'formNoteHeading';
+    const baseClass = formNote.className || '';
+    heading.className = `${baseClass} form-note-heading`.trim();
+    heading.textContent = message;
+    formNote.replaceWith(heading);
+    formNote = heading;
+  };
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    const emailLabel = form.querySelector('label[for="email"]');
     const emailInput = document.getElementById('email');
+    const submitButton = document.getElementById('submitButton');
     const email = emailInput?.value?.trim();
+    let signupSucceeded = false;
 
-    if (!email) {
-      formNote.textContent = 'Please enter an email address.';
+    if (!email || !submitButton) {
+      setFormNoteText('Please enter an email address.');
       return;
     }
 
     submitButton.disabled = true;
     submitButton.textContent = 'Joining...';
-    formNote.textContent = 'Submitting...';
+    setFormNoteText('Submitting...');
 
     try {
       const response = await fetch(form.action, {
@@ -46,21 +71,34 @@ if (form) {
 
       if (response.ok) {
         form.reset();
-        formNote.textContent = "You're in! Your bussy's big day is cumming.";
+        if (emailLabel) {
+          emailLabel.hidden = true;
+        }
+        emailInput.hidden = true;
+        const successBadge = document.createElement('div');
+        successBadge.className = 'trust-item signup-success-pill';
+        successBadge.textContent = 'Submitted successfully';
+        successBadge.setAttribute('role', 'status');
+        submitButton.replaceWith(successBadge);
+        form.classList.add('is-success');
+        signupSucceeded = true;
+        promoteNoteToHeading("You're in! Your bussy's big day is cumming.");
       } else {
         const data = await response.json().catch(() => null);
 
         if (data && data.errors && data.errors.length > 0) {
-          formNote.textContent = data.errors.map(err => err.message).join(', ');
+          setFormNoteText(data.errors.map(err => err.message).join(', '));
         } else {
-          formNote.textContent = 'Something went wrong. Please try again.';
+          setFormNoteText('Something went wrong. Please try again.');
         }
       }
     } catch (error) {
-      formNote.textContent = 'Network error. Please try again.';
+      setFormNoteText('Network error. Please try again.');
     } finally {
-      submitButton.disabled = false;
-      submitButton.textContent = 'Join waitlist';
+      if (!signupSucceeded) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Join waitlist';
+      }
     }
   });
 }
