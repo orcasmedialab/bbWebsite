@@ -8,6 +8,12 @@ const mobileAudioTrigger = document.getElementById('mobileAudioTrigger');
 const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 640px)') : null;
 const audioPreferenceKey = 'bbAudioMuted';
 
+const couponOverlay = document.getElementById('couponOverlay');
+const couponJoinButton = document.getElementById('couponJoinButton');
+const couponDismissButton = document.getElementById('couponDismissButton');
+const couponCloseButton = document.getElementById('couponCloseButton');
+const couponModalElement = couponOverlay?.querySelector('.coupon-modal') || null;
+
 if (menuToggle && mobileMenu) {
   menuToggle.addEventListener('click', () => {
     const open = mobileMenu.classList.toggle('open');
@@ -19,6 +25,84 @@ if (menuToggle && mobileMenu) {
       mobileMenu.classList.remove('open');
       menuToggle.setAttribute('aria-expanded', 'false');
     });
+  });
+}
+
+if (couponOverlay) {
+  const couponDelayMs = 10000;
+  let couponTimerId = null;
+  let couponTimerArmed = false;
+  let couponHasDismissed = false;
+  let couponIsOpen = false;
+
+  const clearCouponTimer = () => {
+    if (couponTimerId !== null) {
+      window.clearTimeout(couponTimerId);
+      couponTimerId = null;
+    }
+  };
+
+  const closeCouponOverlay = (markDismissed = true) => {
+    if (!couponOverlay) return;
+    clearCouponTimer();
+    if (couponIsOpen) {
+      couponIsOpen = false;
+      couponOverlay.hidden = true;
+      couponOverlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('coupon-locked');
+    }
+    if (markDismissed) {
+      couponHasDismissed = true;
+    }
+  };
+
+  const openCouponOverlay = () => {
+    if (couponHasDismissed || couponIsOpen) return;
+    couponIsOpen = true;
+    clearCouponTimer();
+    couponOverlay.hidden = false;
+    couponOverlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('coupon-locked');
+    const focusTarget = couponModalElement || couponJoinButton || couponCloseButton;
+    try {
+      focusTarget?.focus({ preventScroll: true });
+    } catch (error) {
+      focusTarget?.focus();
+    }
+  };
+
+  const startCouponTimer = () => {
+    if (couponTimerArmed || couponHasDismissed) return;
+    couponTimerArmed = true;
+    couponTimerId = window.setTimeout(() => {
+      couponTimerId = null;
+      openCouponOverlay();
+    }, couponDelayMs);
+  };
+
+  [
+    { name: 'click', options: { once: true, passive: true } },
+    { name: 'touchstart', options: { once: true, passive: true } },
+    { name: 'keydown', options: { once: true } }
+  ].forEach(({ name, options }) => {
+    window.addEventListener(name, startCouponTimer, options);
+  });
+
+  couponJoinButton?.addEventListener('click', () => {
+    closeCouponOverlay(true);
+    const waitlistSection = document.getElementById('signup');
+    waitlistSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  const dismissCoupon = () => closeCouponOverlay(true);
+  couponDismissButton?.addEventListener('click', dismissCoupon);
+  couponCloseButton?.addEventListener('click', dismissCoupon);
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && couponIsOpen) {
+      event.preventDefault();
+      dismissCoupon();
+    }
   });
 }
 

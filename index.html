@@ -290,6 +290,22 @@
     </section>
   </main>
 
+  <div class="coupon-overlay" id="couponOverlay" hidden aria-hidden="true">
+    <div class="coupon-overlay__backdrop" aria-hidden="true"></div>
+    <div class="coupon-modal" role="dialog" aria-modal="true" aria-labelledby="couponModalTitle" tabindex="-1">
+      <button type="button" class="coupon-modal__close" id="couponCloseButton" aria-label="Close waitlist offer">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <div class="coupon-modal__eyebrow">Launch Offer</div>
+      <h3 id="couponModalTitle">Join the waitlist &amp; save 50%</h3>
+      <p>Be first in line and take half off your first order when we go live.</p>
+      <div class="coupon-modal__actions">
+        <button type="button" class="button coupon-modal__primary" id="couponJoinButton">Join waitlist</button>
+        <button type="button" class="button button-ghost coupon-modal__secondary" id="couponDismissButton">No thanks</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="site-footer">
     <div class="container footer-inner">
       <div>
