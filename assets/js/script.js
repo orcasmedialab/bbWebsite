@@ -23,6 +23,15 @@ const couponCloseButton = document.getElementById('couponCloseButton');
 const couponModalElement = couponOverlay?.querySelector('.coupon-modal') || null;
 const couponDismissedKey = 'bbCouponDismissed';
 
+window.resetExperience = () => {
+  try {
+    localStorage.clear();
+  } catch (error) {
+    // ignore storage failures
+  }
+  window.location.reload();
+};
+
 const readCouponDismissedFlag = () => {
   try {
     return localStorage.getItem(couponDismissedKey) === 'true';
