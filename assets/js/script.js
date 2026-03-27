@@ -3,6 +3,9 @@ const mobileMenu = document.getElementById('mobileMenu');
 const form = document.getElementById('waitlistForm');
 let formNote = document.getElementById('formNote');
 const audioToggle = document.getElementById('audioToggle');
+const mobileAudioPrompt = document.getElementById('mobileAudioPrompt');
+const mobileAudioTrigger = document.getElementById('mobileAudioTrigger');
+const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 640px)') : null;
 const audioPreferenceKey = 'bbAudioMuted';
 
 if (menuToggle && mobileMenu) {
@@ -108,6 +111,21 @@ const siteAudio = document.getElementById('siteAudio');
 if (siteAudio) {
   const defaultVolume = 0.35;
 
+  const showMobileAudioPrompt = () => {
+    if (!mobileAudioPrompt) return;
+    mobileAudioPrompt.hidden = false;
+    mobileAudioPrompt.setAttribute('aria-hidden', 'false');
+  };
+
+  const removeMobileAudioPrompt = () => {
+    if (!mobileAudioPrompt) return;
+    mobileAudioPrompt.hidden = true;
+    mobileAudioPrompt.setAttribute('aria-hidden', 'true');
+    if (mobileAudioPrompt.parentElement) {
+      mobileAudioPrompt.parentElement.removeChild(mobileAudioPrompt);
+    }
+  };
+
   const readStoredMutePreference = () => {
     try {
       const storedValue = localStorage.getItem(audioPreferenceKey);
@@ -154,19 +172,47 @@ if (siteAudio) {
     writeStoredMutePreference(muted);
   };
 
-  if (document.readyState === 'complete') {
-    startPlaybackIfAllowed();
+  const registerDeferredPlaybackAttempt = () => {
+    ['click', 'keydown', 'touchstart'].forEach((eventName) => {
+      const handler = () => {
+        startPlaybackIfAllowed();
+      };
+      document.addEventListener(eventName, handler, { once: true, passive: true });
+    });
+  };
+
+  const bootstrapAutoPlayback = () => {
+    if (document.readyState === 'complete') {
+      startPlaybackIfAllowed();
+    } else {
+      window.addEventListener('load', startPlaybackIfAllowed, { once: true });
+    }
+    registerDeferredPlaybackAttempt();
+  };
+
+  const shouldGateMobileAudio = Boolean(mobileViewportQuery?.matches && mobileAudioPrompt && mobileAudioTrigger);
+
+  if (!shouldGateMobileAudio) {
+    bootstrapAutoPlayback();
   } else {
-    window.addEventListener('load', startPlaybackIfAllowed, { once: true });
+    siteAudio.autoplay = false;
+    siteAudio.pause();
+    siteAudio.currentTime = 0;
+    showMobileAudioPrompt();
   }
 
-  ['click', 'keydown', 'touchstart'].forEach((eventName) => {
-    const handler = () => {
+  if (shouldGateMobileAudio && mobileAudioTrigger) {
+    mobileAudioTrigger.addEventListener('click', () => {
+      removeMobileAudioPrompt();
+      siteAudio.currentTime = 0;
+      siteAudio.muted = false;
+      if (siteAudio.volume === 0) {
+        siteAudio.volume = defaultVolume;
+      }
+      updateAudioToggle();
       startPlaybackIfAllowed();
-      document.removeEventListener(eventName, handler);
-    };
-    document.addEventListener(eventName, handler, { once: true, passive: true });
-  });
+    });
+  }
 
   if (audioToggle) {
     updateAudioToggle();

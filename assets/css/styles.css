@@ -324,6 +324,59 @@ p { margin: 0 0 1rem; color: var(--muted); }
   padding: 0.8rem 1rem;
   font-size: 0.93rem;
 }
+.mobile-audio-prompt {
+  display: none;
+  position: relative;
+  height: 0;
+  z-index: 5;
+}
+.mobile-audio-prompt[hidden] {
+  display: none !important;
+}
+.mobile-audio-prompt .container {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.mobile-audio-pill {
+  width: min(320px, 58vw);
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.05);
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.9rem;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  pointer-events: auto;
+  box-shadow: var(--shadow);
+}
+.mobile-audio-pill:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.62);
+  outline-offset: 3px;
+}
+.mobile-audio-pill-text {
+  flex: 1;
+  text-align: left;
+}
+.mobile-audio-pill-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.88rem;
+}
 
 .section-heading {
   max-width: 760px;
@@ -530,6 +583,13 @@ blockquote {
   .hero-image {
     height: auto;
   }
+  .mobile-audio-prompt:not([hidden]) {
+    display: block;
+  }
+  .mobile-audio-prompt .container {
+    top: 10px;
+  }
+
 }
 
 
