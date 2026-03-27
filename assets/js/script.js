@@ -21,6 +21,23 @@ const couponJoinButton = document.getElementById('couponJoinButton');
 const couponDismissButton = document.getElementById('couponDismissButton');
 const couponCloseButton = document.getElementById('couponCloseButton');
 const couponModalElement = couponOverlay?.querySelector('.coupon-modal') || null;
+const couponDismissedKey = 'bbCouponDismissed';
+
+const readCouponDismissedFlag = () => {
+  try {
+    return localStorage.getItem(couponDismissedKey) === 'true';
+  } catch (error) {
+    return false;
+  }
+};
+
+const writeCouponDismissedFlag = () => {
+  try {
+    localStorage.setItem(couponDismissedKey, 'true');
+  } catch (error) {
+    // ignore persistence errors silently
+  }
+};
 
 if (menuToggle && mobileMenu) {
   menuToggle.addEventListener('click', () => {
@@ -40,7 +57,7 @@ if (couponOverlay) {
   const couponDelayMs = 10000;
   let couponTimerId = null;
   let couponTimerArmed = false;
-  let couponHasDismissed = false;
+  let couponHasDismissed = readCouponDismissedFlag();
   let couponIsOpen = false;
 
   const clearCouponTimer = () => {
@@ -97,19 +114,23 @@ if (couponOverlay) {
   });
 
   couponJoinButton?.addEventListener('click', () => {
+    writeCouponDismissedFlag();
     closeCouponOverlay(true);
     const waitlistSection = document.getElementById('signup');
     waitlistSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
-  const dismissCoupon = () => closeCouponOverlay(true);
-  couponDismissButton?.addEventListener('click', dismissCoupon);
-  couponCloseButton?.addEventListener('click', dismissCoupon);
+  couponDismissButton?.addEventListener('click', () => {
+    writeCouponDismissedFlag();
+    closeCouponOverlay(true);
+  });
+
+  couponCloseButton?.addEventListener('click', () => closeCouponOverlay(false));
 
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && couponIsOpen) {
       event.preventDefault();
-      dismissCoupon();
+      closeCouponOverlay(false);
     }
   });
 }
