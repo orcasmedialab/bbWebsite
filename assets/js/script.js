@@ -127,7 +127,8 @@ if (ENABLE_COUPON_CAMPAIGN && couponOverlay) {
   [
     { name: 'click', options: { once: true, passive: true } },
     { name: 'touchstart', options: { once: true, passive: true } },
-    { name: 'keydown', options: { once: true } }
+    { name: 'keydown', options: { once: true } },
+    { name: 'wheel', options: { once: true, passive: true } }
   ].forEach(({ name, options }) => {
     window.addEventListener(name, startCouponTimer, options);
   });
@@ -309,11 +310,16 @@ if (siteAudio) {
   };
 
   const registerDeferredPlaybackAttempt = () => {
-    ['click', 'keydown', 'touchstart'].forEach((eventName) => {
+    [
+      { name: 'click', options: { once: true, passive: true } },
+      { name: 'touchstart', options: { once: true, passive: true } },
+      { name: 'keydown', options: { once: true } },
+      { name: 'wheel', options: { once: true, passive: true } }
+    ].forEach(({ name, options }) => {
       const handler = () => {
         startPlaybackIfAllowed();
       };
-      document.addEventListener(eventName, handler, { once: true, passive: true });
+      document.addEventListener(name, handler, options);
     });
   };
 
