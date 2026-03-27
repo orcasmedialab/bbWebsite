@@ -1,3 +1,11 @@
+const versionMeta = document.querySelector('meta[name="site-version"]');
+const dateMeta = document.querySelector('meta[name="build-date"]');
+
+const BUILD_VERSION = versionMeta?.content || "unknown";
+const BUILD_DATE = dateMeta?.content || "";
+
+console.log(`Bussy Botanicals build: ${BUILD_VERSION} | ${BUILD_DATE}`);
+
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 const form = document.getElementById('waitlistForm');
