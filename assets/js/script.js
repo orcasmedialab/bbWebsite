@@ -6,6 +6,8 @@ const BUILD_DATE = dateMeta?.content || "";
 
 console.log(`Bussy Botanicals build: ${BUILD_VERSION} | ${BUILD_DATE}`);
 
+const ENABLE_COUPON_CAMPAIGN = true;
+
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 const form = document.getElementById('waitlistForm');
@@ -22,6 +24,7 @@ const couponDismissButton = document.getElementById('couponDismissButton');
 const couponCloseButton = document.getElementById('couponCloseButton');
 const couponModalElement = couponOverlay?.querySelector('.coupon-modal') || null;
 const couponDismissedKey = 'bbCouponDismissed';
+const couponPill = document.getElementById('couponPill');
 
 window.resetExperience = () => {
   try {
@@ -48,6 +51,11 @@ const writeCouponDismissedFlag = () => {
   }
 };
 
+if (!ENABLE_COUPON_CAMPAIGN) {
+  couponOverlay?.setAttribute('hidden', 'true');
+  couponPill?.setAttribute('hidden', 'true');
+}
+
 if (menuToggle && mobileMenu) {
   menuToggle.addEventListener('click', () => {
     const open = mobileMenu.classList.toggle('open');
@@ -62,12 +70,14 @@ if (menuToggle && mobileMenu) {
   });
 }
 
-if (couponOverlay) {
+if (ENABLE_COUPON_CAMPAIGN && couponOverlay) {
   const couponDelayMs = 10000;
   let couponTimerId = null;
   let couponTimerArmed = false;
   let couponHasDismissed = readCouponDismissedFlag();
   let couponIsOpen = false;
+
+  couponPill?.removeAttribute('hidden');
 
   const clearCouponTimer = () => {
     if (couponTimerId !== null) {
@@ -90,8 +100,8 @@ if (couponOverlay) {
     }
   };
 
-  const openCouponOverlay = () => {
-    if (couponHasDismissed || couponIsOpen) return;
+  const openCouponOverlay = (forceShow = false) => {
+    if ((couponHasDismissed && !forceShow) || couponIsOpen) return;
     couponIsOpen = true;
     clearCouponTimer();
     couponOverlay.hidden = false;
@@ -141,6 +151,10 @@ if (couponOverlay) {
       event.preventDefault();
       closeCouponOverlay(false);
     }
+  });
+
+  couponPill?.addEventListener('click', () => {
+    openCouponOverlay(true);
   });
 }
 
