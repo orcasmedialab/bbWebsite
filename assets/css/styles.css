@@ -381,13 +381,17 @@ p { margin: 0 0 1rem; color: var(--muted); }
 .coupon-overlay {
   position: fixed;
   inset: 0;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   z-index: 300;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
 }
 .coupon-overlay:not([hidden]) {
-  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 .coupon-overlay__backdrop {
   position: absolute;
