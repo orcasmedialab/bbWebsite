@@ -6,7 +6,8 @@ const BUILD_DATE = dateMeta?.content || "";
 
 console.log(`Bussy Botanicals build: ${BUILD_VERSION} | ${BUILD_DATE}`);
 
-const ENABLE_COUPON_CAMPAIGN = true;
+// Disabled at launch: the 50% waitlist offer no longer applies. Re-enable with a real promo code.
+const ENABLE_COUPON_CAMPAIGN = false;
 
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -15,7 +16,6 @@ let formNote = document.getElementById('formNote');
 const audioToggle = document.getElementById('audioToggle');
 const mobileAudioPrompt = document.getElementById('mobileAudioPrompt');
 const mobileAudioTrigger = document.getElementById('mobileAudioTrigger');
-const mobileViewportQuery = window.matchMedia ? window.matchMedia('(max-width: 640px)') : null;
 const audioPreferenceKey = 'bbAudioMuted';
 
 const couponOverlay = document.getElementById('couponOverlay');
@@ -68,6 +68,30 @@ if (menuToggle && mobileMenu) {
       menuToggle.setAttribute('aria-expanded', 'false');
     });
   });
+}
+
+// Mobile sticky "Buy on Amazon" bar: shown once the hero is out of view, hidden again near the final CTA / footer.
+const mobileBuy = document.getElementById('mobileBuy');
+if (mobileBuy && 'IntersectionObserver' in window) {
+  const blockers = [
+    document.querySelector('.hero'),
+    document.getElementById('product'),
+    document.querySelector('.site-footer')
+  ].filter(Boolean);
+  const visibleBlockers = new Set();
+  const blockerObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        visibleBlockers.add(entry.target);
+      } else {
+        visibleBlockers.delete(entry.target);
+      }
+    });
+    const show = visibleBlockers.size === 0;
+    mobileBuy.classList.toggle('is-visible', show);
+    mobileBuy.inert = !show;
+  });
+  blockers.forEach((el) => blockerObserver.observe(el));
 }
 
 if (ENABLE_COUPON_CAMPAIGN && couponOverlay) {
@@ -189,6 +213,7 @@ if (form) {
     const emailInput = document.getElementById('email');
     const submitButton = document.getElementById('submitButton');
     const email = emailInput?.value?.trim();
+    const submitLabel = submitButton?.textContent;
     let signupSucceeded = false;
 
     if (!email || !submitButton) {
@@ -222,7 +247,7 @@ if (form) {
         submitButton.replaceWith(successBadge);
         form.classList.add('is-success');
         signupSucceeded = true;
-        promoteNoteToHeading("You're in! \nYour bussy's big day is cumming.");
+        promoteNoteToHeading("You're in! \nWe'll be cumming to your inbox soon.");
       } else {
         const data = await response.json().catch(() => null);
 
@@ -237,7 +262,7 @@ if (form) {
     } finally {
       if (!signupSucceeded) {
         submitButton.disabled = false;
-        submitButton.textContent = 'Join waitlist';
+        submitButton.textContent = submitLabel;
       }
     }
   });
@@ -245,136 +270,91 @@ if (form) {
 
 const siteAudio = document.getElementById('siteAudio');
 
+// Site music.
+// Computers: try to play right away. Browsers block sound until the visitor's first click or key press
+// (scrolling doesn't count), so if the first attempt is blocked we start on that first interaction.
+// Phones/tablets: never auto-start; show the "Play the Bussy Song" button instead.
+// The speaker button mutes for the current page view only (nothing is remembered between visits).
 if (siteAudio) {
   const defaultVolume = 0.35;
+  const touchQuery = window.matchMedia ? window.matchMedia('(max-width: 640px), (hover: none) and (pointer: coarse)') : null;
+  const isTouchDevice = Boolean(touchQuery?.matches);
 
-  const showMobileAudioPrompt = () => {
-    if (!mobileAudioPrompt) return;
-    mobileAudioPrompt.hidden = false;
-    mobileAudioPrompt.setAttribute('aria-hidden', 'false');
+  // Older versions remembered mute in localStorage, which left some visitors permanently silent. Clear it.
+  try {
+    localStorage.removeItem(audioPreferenceKey);
+  } catch (error) {
+    // ignore storage failures silently
+  }
+
+  let userMuted = false;
+  siteAudio.volume = defaultVolume;
+  siteAudio.muted = false;
+
+  const isAudible = () => !siteAudio.paused && !siteAudio.muted;
+
+  const updateAudioToggle = () => {
+    if (!audioToggle) return;
+    const on = isAudible();
+    audioToggle.dataset.muted = on ? 'false' : 'true';
+    audioToggle.setAttribute('aria-pressed', on ? 'false' : 'true');
+    audioToggle.setAttribute('aria-label', on ? 'Mute site audio' : 'Play site audio');
+    audioToggle.setAttribute('title', on ? 'Mute audio' : 'Play audio');
+  };
+
+  const play = () => {
+    siteAudio.muted = false;
+    const attempt = siteAudio.play();
+    if (attempt?.catch) {
+      attempt.catch(() => {}); // blocked until a user gesture; retried below
+    }
   };
 
   const removeMobileAudioPrompt = () => {
     if (!mobileAudioPrompt) return;
     mobileAudioPrompt.hidden = true;
     mobileAudioPrompt.setAttribute('aria-hidden', 'true');
-    if (mobileAudioPrompt.parentElement) {
-      mobileAudioPrompt.parentElement.removeChild(mobileAudioPrompt);
+    mobileAudioPrompt.remove();
+  };
+
+  ['play', 'pause', 'volumechange'].forEach((type) => siteAudio.addEventListener(type, updateAudioToggle));
+  siteAudio.addEventListener('play', removeMobileAudioPrompt);
+  updateAudioToggle();
+
+  if (isTouchDevice) {
+    siteAudio.preload = 'none';
+    if (mobileAudioPrompt && mobileAudioTrigger) {
+      mobileAudioPrompt.hidden = false;
+      mobileAudioPrompt.setAttribute('aria-hidden', 'false');
+      mobileAudioTrigger.addEventListener('click', () => {
+        userMuted = false;
+        siteAudio.currentTime = 0;
+        play();
+      });
     }
-  };
-
-  const readStoredMutePreference = () => {
-    try {
-      const storedValue = localStorage.getItem(audioPreferenceKey);
-      return storedValue === null ? null : storedValue === 'true';
-    } catch (error) {
-      return null;
-    }
-  };
-
-  const writeStoredMutePreference = (isMuted) => {
-    try {
-      localStorage.setItem(audioPreferenceKey, isMuted ? 'true' : 'false');
-    } catch (error) {
-      // ignore storage failures silently
-    }
-  };
-
-  siteAudio.volume = defaultVolume;
-  const storedMuted = readStoredMutePreference();
-  if (storedMuted !== null) {
-    siteAudio.muted = storedMuted;
-  }
-
-  const tryPlay = () => {
-    const playback = siteAudio.play();
-    if (playback?.catch) {
-      playback.catch(() => {});
-    }
-  };
-
-  const startPlaybackIfAllowed = () => {
-    if (!siteAudio.muted) {
-      tryPlay();
-    }
-  };
-
-  const updateAudioToggle = () => {
-    if (!audioToggle) return;
-    const muted = siteAudio.muted || siteAudio.volume === 0;
-    audioToggle.dataset.muted = muted ? 'true' : 'false';
-    audioToggle.setAttribute('aria-pressed', muted ? 'true' : 'false');
-    audioToggle.setAttribute('aria-label', muted ? 'Unmute site audio' : 'Mute site audio');
-    audioToggle.setAttribute('title', muted ? 'Unmute audio' : 'Mute audio');
-    writeStoredMutePreference(muted);
-  };
-
-  const registerDeferredPlaybackAttempt = () => {
-    [
-      { name: 'click', options: { once: true, passive: true } },
-      { name: 'touchstart', options: { once: true, passive: true } },
-      { name: 'keydown', options: { once: true } },
-      { name: 'wheel', options: { once: true, passive: true } }
-    ].forEach(({ name, options }) => {
-      const handler = () => {
-        startPlaybackIfAllowed();
-      };
-      document.addEventListener(name, handler, options);
-    });
-  };
-
-  const bootstrapAutoPlayback = () => {
-    if (document.readyState === 'complete') {
-      startPlaybackIfAllowed();
-    } else {
-      window.addEventListener('load', startPlaybackIfAllowed, { once: true });
-    }
-    registerDeferredPlaybackAttempt();
-  };
-
-  const shouldGateMobileAudio = Boolean(mobileViewportQuery?.matches && mobileAudioPrompt && mobileAudioTrigger);
-
-  if (!shouldGateMobileAudio) {
-    bootstrapAutoPlayback();
   } else {
-    siteAudio.autoplay = false;
-    siteAudio.pause();
-    siteAudio.currentTime = 0;
-    showMobileAudioPrompt();
+    removeMobileAudioPrompt();
+    siteAudio.preload = 'auto';
+    play();
+
+    const gestures = ['pointerdown', 'pointerup', 'keydown'];
+    const onGesture = (event) => {
+      if (userMuted || !siteAudio.paused) return;
+      if (event.target instanceof Element && event.target.closest('#audioToggle')) return; // handled below
+      play();
+    };
+    const stopListening = () => gestures.forEach((type) => document.removeEventListener(type, onGesture, true));
+    gestures.forEach((type) => document.addEventListener(type, onGesture, true));
+    siteAudio.addEventListener('playing', stopListening, { once: true });
   }
 
-  if (shouldGateMobileAudio && mobileAudioTrigger) {
-    mobileAudioTrigger.addEventListener('click', () => {
-      removeMobileAudioPrompt();
-      siteAudio.currentTime = 0;
-      siteAudio.muted = false;
-      if (siteAudio.volume === 0) {
-        siteAudio.volume = defaultVolume;
-      }
-      updateAudioToggle();
-      startPlaybackIfAllowed();
-    });
-  }
-
-  if (audioToggle) {
-    updateAudioToggle();
-
-    audioToggle.addEventListener('click', () => {
-      const currentlyMuted = siteAudio.muted || siteAudio.volume === 0;
-
-      if (currentlyMuted) {
-        siteAudio.muted = false;
-        if (siteAudio.volume === 0) {
-          siteAudio.volume = defaultVolume;
-        }
-        startPlaybackIfAllowed();
-      } else {
-        siteAudio.muted = true;
-      }
-
-      updateAudioToggle();
-    });
-
-    siteAudio.addEventListener('volumechange', updateAudioToggle);
-  }
+  audioToggle?.addEventListener('click', () => {
+    if (isAudible()) {
+      userMuted = true;
+      siteAudio.pause();
+    } else {
+      userMuted = false;
+      play();
+    }
+  });
 }
