@@ -3,29 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="site-version" content="v1.1.2" />
-  <meta name="build-date" content="2026-03-26 23:58 PT" />
-  <link rel="stylesheet" href="styles.css?v=1.1.2" />
-  <script src="script.js?v=1.1.2"></script>
-  <title>Bussy Botanicals — Respect Your Rear</title>
-  <meta name="description" content="A premium wash for your most demanding zone. Gentle where it matters. Keeping it fresh for when you need it." />
-  <meta name="theme-color" content="#0f3b2f" />
-  <meta property="og:title" content="Bussy Botanicals" />
-  <meta property="og:description" content="A premium wash for your most demanding zone." />
+  <meta name="site-version" content="v1.7.1" />
+  <meta name="build-date" content="2026-09-27 17:30 PT" />
+  <title>Bussy Botanicals — Deep Clean Rear Wash | Respect Your Rear</title>
+  <meta name="description" content="Deep Clean Rear Wash: an unscented, pH-balanced (4–4.5) wash made specifically for your butt and the sensitive skin around it. Made in the USA. Available now on Amazon." />
+  <meta name="theme-color" content="#08130f" />
+  <link rel="canonical" href="https://bussybotanicals.com/" />
+  <meta property="og:title" content="Bussy Botanicals — Deep Clean Rear Wash" />
+  <meta property="og:description" content="The unscented, pH-balanced wash made for your rear. Available now on Amazon." />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://bussybotanicals.com/" />
+  <meta property="og:image" content="https://bussybotanicals.com/assets/images/favicons/og-image.png">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
+
+  <!-- Reveal animations are opt-in: only when JS runs and the visitor hasn't asked for reduced motion.
+       If motion.js doesn't run, the class is removed so nothing stays hidden. -->
+  <script>
+    (function () {
+      var root = document.documentElement;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      root.classList.add('motion-ok');
+      setTimeout(function () { if (!window.bbMotionReady) root.classList.remove('motion-ok'); }, 3000);
+    })();
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css?v=1.7.1" />
   <link rel="icon" href="assets/images/favicons/favicon.ico">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32.png">
-  <meta property="og:image" content="https://bussybotanicals.com/assets/images/favicons/og-image.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <link rel="preload" as="image" href="assets/images/product/hero-feel-fresh.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Deep Clean Rear Wash",
+    "brand": { "@type": "Brand", "name": "Bussy Botanicals" },
+    "description": "Unscented, pH-balanced (4–4.5) intimate cleansing wash for the butt and perianal skin. Helps control odor. 8 fl oz. Made in Georgia, USA.",
+    "image": "https://bussybotanicals.com/assets/images/product/product-shower-ready.jpg",
+    "gtin12": "199874395081",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.amazon.com/dp/B0HJV56RDN",
+      "price": "19.99",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
 </head>
 <body>
-  <div class="page-glow page-glow-1"></div>
-  <div class="page-glow page-glow-2"></div>
+  <a class="announcement" href="https://www.amazon.com/dp/B0HJV56RDN" target="_blank" rel="noopener">
+    Deep Clean Rear Wash is now on Amazon <span aria-hidden="true">→</span>
+  </a>
 
   <header class="site-header">
     <div class="container nav">
@@ -37,10 +69,11 @@
       </a>
       <div class="nav-actions">
         <nav class="nav-links">
-          <a href="#product">Our Product</a>
           <a href="#why">What it's for</a>
+          <a href="#how">How to use</a>
+          <a href="#product">The Wash</a>
           <a href="#faq">FAQ</a>
-          <a href="#signup" class="button button-sm button-ghost">Join waitlist</a>
+          <a href="https://www.amazon.com/dp/B0HJV56RDN" class="button button-sm button-ghost" target="_blank" rel="noopener">Buy on Amazon</a>
         </nav>
         <button
           class="audio-toggle"
@@ -66,15 +99,18 @@
             </svg>
           </span>
         </button>
-        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+          <span class="menu-toggle__lines" aria-hidden="true"><i></i><i></i></span>
+        </button>
       </div>
     </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#product">Our Product</a>
-    <a href="#why">What it's for</a>
-    <a href="#faq">FAQ</a>
-    <a href="#signup">Join waitlist</a>
-  </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#why">What it's for</a>
+      <a href="#how">How to use</a>
+      <a href="#product">The Wash</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://www.amazon.com/dp/B0HJV56RDN" target="_blank" rel="noopener">Buy on Amazon</a>
+    </div>
   </header>
 
   <div class="mobile-audio-prompt" id="mobileAudioPrompt" aria-live="polite" hidden aria-hidden="true">
@@ -87,214 +123,213 @@
   </div>
 
   <main id="top">
-    <section class="hero section">
+    <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <h1 class="sr-only">Respect your rear.</h1>
-          <div class="hero-visual">
-            <img
-              class="hero-image"
-              src="assets/images/bb-heroShot.png"
-              alt="Bussy Botanicals hero bottle and packaging concept"
-              width="1536"
-              height="1024"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </div>
-          <p class="hero-lead">
-            A premium wash for your most demanding zone. Gentle where it matters. Keeping it fresh for when you need it.
+          <p class="label" data-hero style="--d: 0ms">Deep Clean Rear Wash</p>
+          <h1 class="hero-title">
+            <span class="word"><span style="--i: 0">Respect</span></span>
+            <span class="word"><span style="--i: 1">your</span></span>
+            <span class="word"><span style="--i: 2"><em>rear.</em></span></span>
+          </h1>
+          <p class="hero-lead" data-hero style="--d: 450ms">
+            A premium, unscented wash made specifically for your butt and the delicate skin around your bussy. It clears out the sweat, sludge and funk your regular body wash leaves behind.
           </p>
-          <div class="hero-actions">
-            <a href="#signup" class="button">Join the waitlist</a>
+          <div class="hero-actions" data-hero style="--d: 550ms">
+            <a href="https://www.amazon.com/dp/B0HJV56RDN" class="button" target="_blank" rel="noopener">
+              Buy on Amazon
+              <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+            </a>
+            <a href="#why" class="text-link">Why your rear needs it</a>
           </div>
         </div>
 
+        <figure class="hero-media">
+          <img
+            src="assets/images/product/hero-feel-fresh.jpg"
+            alt="Man in the shower holding a bottle of Bussy Botanicals Deep Clean Rear Wash"
+            width="1200"
+            height="1200"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
       </div>
     </section>
 
-    <section class="section trust-strip">
-      <div class="container trust-grid">
-        <div class="trust-item">That bussy-PH Balance</div>
-        <div class="trust-item">Friendly on your special little ring</div>
-        <div class="trust-item">Premium lathering experience</div>
-        <div class="trust-item">Bussylicious scents and flavors</div>
-      </div>
+    <section class="benefits" aria-label="Key benefits">
+      <ul class="container benefits-list" data-reveal-group>
+        <li><strong>pH 4–4.5</strong><span>Balanced for intimate skin</span></li>
+        <li><strong>Unscented</strong><span>Clean, not covered up</span></li>
+        <li><strong>Sulfate &amp; paraben free</strong><span>Friendly on your special little ring</span></li>
+        <li><strong>Made in the USA</strong><span>Proudly made in Georgia</span></li>
+      </ul>
     </section>
 
-    <section class="section" id="product">
+    <section class="statement" aria-label="Our philosophy">
       <div class="container">
-        <div class="section-heading">
-          <h2>Intimate cleanser with a little rear appeal</h2>
-          <p>
-            Serious care for your sassiest asset.
-          </p>
-        </div>
-
-        <div class="cards three-up">
-          <article class="card">
-            <h3>Signature bussy wash</h3>
-            <p>
-              Our flagship recipe with a fresh eucalyptus-mint profile that fights through that stubborn butt sludge. Invented in Japan for sumo wrestlers.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Sensitive formula</h3>
-            <p>
-             Made with mild natural surfactants, soothing ingredients, and pH-balancing compounds, all optimized for delicate skin zones.
-            </p>
-          </article>
-          <article class="card">
-            <h3>Bespoke packaging</h3>
-            <p>
-              Pump it from an elegant recyclable container that screams BUSSY!
-            </p>
-          </article>
-        </div>
+        <p class="statement__text" data-scroll-words>A premium wash for your most demanding zone. Gentle where it matters. Keeping it fresh for when you need it.</p>
       </div>
     </section>
 
     <section class="section alt" id="why">
+      <div class="container split split--reverse">
+        <div class="split__content">
+          <p class="label" data-reveal>What it's for</p>
+          <h2 data-reveal>Your face has a routine. Why not your <em>backside?</em></h2>
+          <p class="split__lead" data-reveal>
+            Most body washes treat every square inch the same. Our signature bussy wash is built around a simple idea: the body has sensitive areas that deserve more-intentional care.
+          </p>
+          <ol class="numbered" data-reveal-group>
+            <li>
+              <span class="numbered__num">01</span>
+              <div>
+                <h3>Stop settling for shit.</h3>
+                <p>General-purpose body washes aren't made for your ass crack. They leave poo-bits behind and can be harsh on the delicate skin around your hole.</p>
+              </div>
+            </li>
+            <li>
+              <span class="numbered__num">02</span>
+              <div>
+                <h3>Your sweaty butt stanks.</h3>
+                <p>Your crack traps sweat and buildup, and let's face it ... it smells like ass. Covering it with perfume just makes it smell like perfumed ass.</p>
+              </div>
+            </li>
+            <li>
+              <span class="numbered__num">03</span>
+              <div>
+                <h3>But(t) here comes the bussy.</h3>
+                <p>A wash that clears out the sludge and helps control odor while respecting your skin's natural pH, leaving that hole fresh, clean and ready for its close-up.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+        <figure class="split__media" data-reveal="image">
+          <img src="assets/images/product/what-its-for-back.jpg" alt="Man seen from behind in boxer briefs, hands resting on his lower back" width="1100" height="1375" loading="lazy" decoding="async" />
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="how">
       <div class="container split">
-        <div>
-          <h2>Your face has a routine. Why not your backside?</h2>
-          <p>
-            Most body washes treat every square inch the same. Our signature bussy wash is built around a proven concept: the body has sensitive areas that deserve more-intentional care.
-          </p>
-        </div>
-        <div class="callout-stack">
-          <div class="callout">
-            <span>01</span>
-            <div>
-              <strong>Stop settling for shit!</strong>
-              <p>Standard general-purpose body washes are not optimized for your ass crack. They leave poo-bits behind and irritate your anus.</p>
-            </div>
-          </div>
-          <div class="callout">
-            <span>02</span>
-            <div>
-              <strong>Your sweaty butt STANKS!</strong>
-              <p>Your crack harbors sweat and bacteria, and let's face it ... it smells like ass. Generic body washes only exacerbate these odors over time.</p>
-            </div>
-          </div>
-          <div class="callout">
-            <span>03</span>
-            <div>
-              <strong>But(t) here comes the bussy!</strong>
-              <p>That's why we invented a wash that targets poo particles and deals with componding odors, all while being safe on skin and leaving that hole tasty fresh.</p>
-            </div>
-          </div>
+        <figure class="split__media split__media--tall" data-reveal="image">
+          <img src="assets/images/product/how-to-cleaner-routine.jpg" alt="Deep Clean Rear Wash on a marble bathroom counter with plants and a folded towel" width="598" height="1150" loading="lazy" decoding="async" />
+        </figure>
+        <div class="split__content">
+          <p class="label" data-reveal>How to use</p>
+          <h2 data-reveal>Cleaner today. <em>Happier tomorrow.</em></h2>
+          <ol class="steps" data-reveal-group>
+            <li>
+              <span class="steps__num">1</span>
+              <div>
+                <h3>Pre-rinse</h3>
+                <p>Pre-rinse your ass with warm water, removing all loose debris.</p>
+              </div>
+            </li>
+            <li>
+              <span class="steps__num">2</span>
+              <div>
+                <h3>One pump</h3>
+                <p>Splurt one pump onto the end of your fingussy.</p>
+              </div>
+            </li>
+            <li>
+              <span class="steps__num">3</span>
+              <div>
+                <h3>Lather &amp; rinse</h3>
+                <p>Lather between your hands, then slide yo' palms between those cheeks. Scrub until freshened, then flush with warm water.</p>
+              </div>
+            </li>
+          </ol>
+          <p class="fine-print" data-reveal>For external use only.</p>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section alt quotes-section">
       <div class="container">
-        <div class="section-heading narrow">
-          <div class="eyebrow">Scents and flavors</div>
-          <h2>Bussy fragrances for the common man</h2>
-          <p>
-            Our flagship bussy wash comes in a variety of smells and tastes.
-          </p>
+        <div class="section-head">
+          <p class="label" data-reveal>Early user feedback</p>
+          <h2 data-reveal>The Bussy heard <em>around the world.</em></h2>
+          <p data-reveal>The very first bottles went out. Here's what came back.</p>
         </div>
-        <div class="ingredient-grid">
-          <div class="ingredient-card">
-            <h3>Big Bussy Energy</h3>
-            <p>Bold and cheeky, leaving your skin feeling fresh, confident, and unapologetically powerful all day long.</p>
-          </div>
-          <div class="ingredient-card">
-            <h3>Berry Fresh Bussy</h3>
-            <p>Playful and fruity, bursting with juicy berry scents that leave you feeling clean, sweet, and confidently fresh.</p>
-          </div>
-          <div class="ingredient-card">
-            <h3>Forbidden Peach</h3>
-            <p>Seductive and velvety, infused with luscious peach notes that leave your skin irresistibly soft, sweet, and temptingly fragrant.</p>
-          </div>
-          <div class="ingredient-card">
-            <h3>Sugar Rim</h3>
-            <p>Flirty and indulgent, with a sweet, dessert-like scent that leaves your skin smooth, glowing, and deliciously irresistible.</p>
-          </div>
+        <div class="quotes" data-reveal-group>
+          <figure class="quote">
+            <blockquote>“Not exaggerating, my asshole used to smell like Satan's morning breath. I switched to Bussy Botanicals and now my husbands can't stop eating this bussy.”</blockquote>
+            <figcaption>Sean</figcaption>
+          </figure>
+          <figure class="quote">
+            <blockquote>“I've tried other bussy washes that left my sphincter in glowing pain. This one feels best on my little hole.”</blockquote>
+            <figcaption>Brian</figcaption>
+          </figure>
+          <figure class="quote">
+            <blockquote>“I don't even feel the need to wipe anymore. Thanks Bussy Botanicals!”</blockquote>
+            <figcaption>Zach</figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
-    <section class="section alt social-proof">
-      <div class="container">
-        <div class="section-heading">
-          <div class="eyebrow">User testimonials</div>
-          <h2>The Bussy heard around the world.</h2>
+    <section class="section" id="product">
+      <div class="container product-grid">
+        <figure class="product-media" data-reveal="image">
+          <img src="assets/images/product/product-shower-ready.jpg" alt="Deep Clean Rear Wash on a wet shower shelf beside a natural sponge" width="712" height="1020" loading="lazy" decoding="async" />
+        </figure>
+
+        <div class="product-info">
+          <p class="label" data-reveal>The wash</p>
+          <h2 data-reveal>Deep Clean Rear Wash</h2>
+          <p class="product-meta" data-reveal>Unscented · 8 fl oz / 237 mL</p>
+          <p class="product-desc" data-reveal>Your rear has waited long enough. One pump, and a whole new relationship with your backside.</p>
+          <div data-reveal>
+            <a href="https://www.amazon.com/dp/B0HJV56RDN" class="button" target="_blank" rel="noopener">
+              Buy on Amazon
+              <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+            </a>
+          </div>
         </div>
-        <div class="quotes">
-          <blockquote>
-            “Not exagerating, my asshole used to smell like Satan's morning breath. I switched to Bussy Botanicals and now my husbands can't stop eating this bussy.”
-          </blockquote>
-          <blockquote>
-            “I've tried other bussy washes that left my sphincter in glowing pain. This one feels best on my little hole.”
-          </blockquote>
-          <blockquote>
-            “I don't even feel the need to wipe anymore. Thanks Bussy Botanicals!”
-          </blockquote>
+      </div>
+    </section>
+    <section class="section alt" id="faq">
+      <div class="container faq-layout">
+        <div class="faq-head">
+          <p class="label" data-reveal>FAQ</p>
+          <h2 data-reveal>Let's settle your <em>burning</em> questions.</h2>
+        </div>
+
+        <div class="faq-list" data-reveal-group>
+          <details>
+            <summary>Is this a real product?<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Yes. It comes from a special recipe known to the Japanese for centuries, and it's made right here in Georgia, USA. You can buy it on Amazon right now.</p></div>
+          </details>
+          <details>
+            <summary>Who is it for?<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Anybody with a bussy (or a womussy). If you've got a butt, it's for you.</p></div>
+          </details>
+          <details>
+            <summary>What does it smell like?<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Nothing. It's unscented on purpose. We'd rather get you clean than cover up the funk with perfume, and it won't clash with your cologne or body wash.</p></div>
+          </details>
+          <details>
+            <summary>Is it gentle enough for down there?<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>It's pH-balanced at 4–4.5 to complement the naturally acidic skin around your intimate areas, and it's sulfate- and paraben-free.</p></div>
+          </details>
+          <details>
+            <summary>How does one use it correctly?<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>Pre-rinse with warm water, splurt one pump onto your fingers, lather and wash externally between the cheeks, then flush with warm water. For external use only. This is a wash, not a douche.</p></div>
+          </details>
+          <details>
+            <summary>Where can I get it?<span class="faq-icon" aria-hidden="true"></span></summary>
+            <div class="faq-answer"><p>On <a class="text-link" href="https://www.amazon.com/dp/B0HJV56RDN" target="_blank" rel="noopener">Amazon</a>. Hit the button and it'll be at your door (and your back door) in no time.</p></div>
+          </details>
         </div>
       </div>
     </section>
 
-    <section class="section" id="signup">
-      <div class="container signup-wrap">
-        <div class="signup-copy">
-          <div class="eyebrow">Pre-launch signup</div>
-          <h2>Join the first drop.</h2>
-          <p>
-            Slide into our list like it’s the smoothest, freshest crack in the universe. When we launch, you’ll want to be first in line for that squeaky-clean boost from behind.
-          </p>
-          <p class="muted">
-            Sign up now so that your future self will thank you from the top to the bottom.
-          </p>
-        </div>
-
-        <form 
-          class="signup-form" 
-          id="waitlistForm"
-          action="https://formspree.io/f/mnjoanog" 
-          method="POST"
-        >
-          <label for="email" class="sr-only">Email address</label>
-          <input id="email" name="email" type="email" placeholder="Enter your email" required />
-          <button type="submit" class="button" id="submitButton">Join waitlist</button>
-          <p class="form-note" id="formNote">Be part of the Clean Cheeks Club.</p>
-        </form>
-      </div>
-    </section>
-
-    <section class="section faq" id="faq">
-      <div class="container">
-        <div class="section-heading narrow">
-          <div class="eyebrow">FAQ</div>
-          <h2>Let's settle your burning questions</h2>
-        </div>
-
-        <div class="faq-list">
-          <details>
-            <summary>Is this a real product?</summary>
-            <p>Yes. It comes from a special recipe known to the Japanese for centuries.</p>
-          </details>
-          <details>
-            <summary>Who is it for?</summary>
-            <p>Anybody with a bussy (or a womussy).</p>
-          </details>
-          <details>
-            <summary>When can I get my bussy wash?</summary>
-            <p>Deliveries for pre-orders will begin shipping out in Spring 2026.</p>
-          </details>
-          <details>
-            <summary>How does one use it correctly?</summary>
-            <p>Instructional video coming soon to a bussy near you.</p>
-          </details>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <button type="button" class="button button-ghost coupon-pill" id="couponPill" aria-label="Get 50% off waitlist offer">
+  <!-- Coupon campaign is disabled (ENABLE_COUPON_CAMPAIGN in script.js). Markup kept for reuse with a real promo code. -->
+  <button type="button" class="button button-ghost coupon-pill" id="couponPill" aria-label="Get 50% off waitlist offer" hidden>
     GET 50% OFF
   </button>
 
@@ -314,32 +349,63 @@
     </div>
   </div>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>
-        <div class="footer-brand">Bussy Botanicals</div>
-        <p class="footer-copy">Premium butt care, confident vibes.</p>
-        <p class="footer-copy">Respect your rear.</p>
+  <footer class="site-footer" id="signup">
+    <div class="container footer-top">
+      <div class="footer-signup">
+        <p class="label">Stay in the loop</p>
+        <h2 class="footer-title">Join the Clean Cheeks Club.</h2>
+        <p>New drops, restocks and deals. Your future self will thank you from the top to the bottom.</p>
+        <form
+          class="signup-form"
+          id="waitlistForm"
+          action="https://formspree.io/f/mnjoanog"
+          method="POST"
+        >
+          <label for="email" class="sr-only">Email address</label>
+          <div class="signup-row">
+            <input id="email" name="email" type="email" placeholder="Your email address" autocomplete="email" required />
+            <button type="submit" class="button" id="submitButton">Sign me up</button>
+          </div>
+          <p class="form-note" id="formNote">No spam. Just bussy.</p>
+        </form>
       </div>
-      <div class="footer-links">
-        <a href="#top">Top</a>
-        <a href="#product">Our Product</a>
-        <a href="#signup">Waitlist</a>
+      <nav class="footer-nav" aria-label="Footer">
+        <div>
+          <p class="footer-heading">Shop</p>
+          <a href="https://www.amazon.com/dp/B0HJV56RDN" target="_blank" rel="noopener">Buy on Amazon</a>
+        </div>
+        <div>
+          <p class="footer-heading">Explore</p>
+          <a href="#why">What it's for</a>
+          <a href="#how">How to use</a>
+          <a href="#product">The Wash</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </nav>
+    </div>
+    <div class="container footer-bottom">
+      <div class="footer-brand">
+        <img src="assets/images/bbLogo-rounded-64.png" alt="" width="32" height="32" />
+        <span>Bussy Botanicals</span>
       </div>
+      <p>Premium butt care, confident vibes. Respect your rear.</p>
+      <p>© 2026 Bussy Botanicals</p>
     </div>
   </footer>
+
+  <a href="https://www.amazon.com/dp/B0HJV56RDN" class="button mobile-buy" id="mobileBuy" target="_blank" rel="noopener" inert>
+    Buy on Amazon
+    <svg class="icon-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+  </a>
 
   <audio
     id="siteAudio"
     src="assets/audio/brand-theme.mp3"
-    preload="auto"
-    autoplay
+    preload="none"
     aria-hidden="true"
   ></audio>
 
-  <script src="assets/js/script.js"></script>
+  <script src="assets/js/script.js?v=1.7.1"></script>
+  <script src="assets/js/motion.js?v=1.7.1"></script>
 </body>
 </html>
-
-
-
