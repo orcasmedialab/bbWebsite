@@ -12,8 +12,8 @@ A lightweight static landing page built for quick deployment to GitHub Pages or 
   - `bbLogo-rounded-64.png` (brand mark used in the header)
   - `product/`
     - `bbProductImage*.png`: original 1254px listing images (source files, not referenced by the page)
-    - `hero-feel-fresh.jpg`: listing image 6, retouched to remove the printed "Feel Fresh. Look Good."
-      tagline, divider and leaf mark, used in the hero
+    - `hero-still-life.jpg`: square crop of the brand-story banner (bottle on a stone plinth, dark green
+      wall), used in the hero. The hero intentionally shows the product only, no people.
     - `product-shower-ready.jpg`: text-free crop of image 5, used in "The Wash"
     - `how-to-cleaner-routine.jpg`: text-free crop of image 2, used in "How to use"
     - `what-its-for-back.jpg`: royalty-free stock photo used in "What it's for" (see credits)
