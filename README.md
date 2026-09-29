@@ -75,8 +75,23 @@ http://localhost:8000
 6. Save, then wait for GitHub Pages to publish.
 
 ## Recommended next edits
-- Create a 1200×630 `og-image.png` for link previews (and update the `og:image` width/height meta).
-- Swap the parody testimonials for real Amazon reviews once they come in.
+- **High priority: keep the Product JSON-LD price and availability in sync with Amazon.** `index.html`
+  hard-codes `"price": "19.99"` and `"availability": "https://schema.org/InStock"`. The Amazon price will
+  go up in steps after the review-first launch period and stock can change, so these should come from the
+  Amazon listing (the source of truth) instead of manual website edits, e.g. a scheduled job that reads the
+  listing's price/availability and rewrites the JSON-LD. Until that exists, update both fields by hand
+  whenever the Amazon price or stock status changes; stale structured data is easy to miss.
+- **Soon: proper social preview image.** People are already sharing the URL, and link previews use
+  `assets/images/favicons/og-image.png` (512×512 logo). Replace it with a 1200×630 preview image and update
+  `og:image:width` / `og:image:height` in `index.html` to match.
+- **Make the Bussy Song opt-in on desktop too.** `assets/js/script.js` currently tries to autoplay on
+  desktop and otherwise starts on the first click/key press. Switch desktop to the same opt-in
+  "Play the Bussy Song" button that phones already get.
+- Swap the early-user testimonials for unbiased Amazon reviews once enough of those exist.
+- **Content research: Japan / lactic-acid background.** The FAQ's Japan reference stays for now: it rests
+  on historical Japanese cosmetic and home-remedy use of lactic-acid-containing ingredients, and lactic acid
+  is a key ingredient in the wash. Gather credible scientific publications and historical sources that
+  substantiate this, to support a possible educational section for customers later.
 - Add your real social links.
 
 ## Image credits
